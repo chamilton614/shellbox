@@ -1,12 +1,12 @@
 #FROM docker-registry.default.svc:5000/shellbox/s2i-core-centos7
-FROM centos:centos7
+FROM centos:centos8
 
 USER root
 
 ENV APP_ROOT=/opt/app-root
 ENV HOME=${APP_ROOT}
 ENV MAVEN_HOST=https://dlcdn.apache.org
-ENV MAVEN_VERSION=3.6.3
+ENV MAVEN_VERSION=3.8.6
 
 #COPY docker-entrypoint.sh ${APP_ROOT}/entrypoint.sh
 COPY bin/ ${APP_ROOT}/bin/
