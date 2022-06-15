@@ -9,7 +9,7 @@ if  [ -z "${PROJECT}" ]; then
     echo "setup-shellbox myproject"
 else
     ### Create the Build Config
-    oc new-build --strategy docker --binary --image centos:centos7 --name shellbox -n ${PROJECT}
+    oc new-build --strategy docker --binary --image centos:centos8 --name shellbox -n ${PROJECT}
     echo ""
 
     ### Start the Build
@@ -17,6 +17,6 @@ else
     echo ""
 
     ### Deploy the Application
-    oc new-app shellbox --name shellbox -n ${PROJECT}
+    oc new-app shellbox --name shellbox -n ${PROJECT} --allow-missing-imagestream-tags
     echo ""
 fi
