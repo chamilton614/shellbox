@@ -7,6 +7,7 @@ ENV APP_ROOT=/opt/app-root
 ENV HOME=${APP_ROOT}
 ENV MAVEN_HOST=https://dlcdn.apache.org
 ENV MAVEN_VERSION=3.8.6
+#ENV FIX_PERMISSIONS=https://github.com/sclorg/container-common-scripts/blob/25fa46839e12aaa42d0545db8d93c0572a1f2f69/shared-scripts/core/usr/bin/fix-permissions
 
 #COPY docker-entrypoint.sh ${APP_ROOT}/entrypoint.sh
 COPY bin/ ${APP_ROOT}/bin/
@@ -24,10 +25,10 @@ RUN wget --no-check-certificate ${MAVEN_HOST}/maven/maven-3/${MAVEN_VERSION}/bin
     mkdir -p $HOME/.m2 && chmod -R a+rwX $HOME/.m2 && \
 ### OpenShift CLI
     tar -xvf ${APP_ROOT}/OpenShift_CLI/oc-linux.tar.gz -C ${APP_ROOT}/OpenShift_CLI && \
-    rm -f ${APP_ROOT}/OpenShift_CLI/*.tar.gz && \
+    rm -f ${APP_ROOT}/OpenShift_CLI/*.tar.gz
 ### Fix Permissions
-    wget -nv https://raw.githubusercontent.com/sclorg/s2i-base-container/master/core/root/usr/bin/fix-permissions \
-	-O /usr/bin/fix-permissions && chmod +x /usr/bin/fix-permissions
+#    wget -nv ${FIX_PERMISSIONS} -O /usr/bin/fix-permissions && \
+#    chmod +x /usr/bin/fix-permissions
 
 ### Add Maven Settings
 COPY s2i-settings.xml ${APP_ROOT}/.m2/settings.xml
@@ -49,9 +50,9 @@ ENV PATH=${APP_ROOT}/bin:${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${OPENSHIFT_CLI}:${P
 ### Update Permissions and Execute any additional scripts or commands
 RUN mkdir -p ${APP_ROOT}/.kube && \
     mkdir -p ${APP_ROOT}/data && \
-	fix-permissions ${APP_ROOT}/.kube -P && \
-    fix-permissions ${APP_ROOT}/data -P && \
-    fix-permissions ${APP_ROOT} -P && \
+	#fix-permissions ${APP_ROOT}/.kube -P && \
+    #fix-permissions ${APP_ROOT}/data -P && \
+    #fix-permissions ${APP_ROOT} -P && \
     chown -R 1001:0 ${APP_ROOT} && \
     chmod -R u+x ${APP_ROOT}/bin && \
     #chmod +x ${APP_ROOT}/bin/uid_entrypoint.sh && \
