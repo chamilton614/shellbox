@@ -9,7 +9,7 @@ if  [ -z "${PROJECT}" ]; then
     echo "setup-shellbox myproject"
 else
     ### Create the Build Config
-    oc new-build --strategy docker --binary --image centos:centos8 --name shellbox -n ${PROJECT}
+    oc new-build --strategy docker --binary --docker-image centos:7 --name shellbox -n ${PROJECT}
     echo ""
 
     ### Start the Build

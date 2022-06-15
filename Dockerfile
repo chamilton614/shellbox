@@ -1,5 +1,5 @@
 #FROM docker-registry.default.svc:5000/shellbox/s2i-core-centos7
-FROM centos:centos8
+FROM centos:7
 
 USER root
 
@@ -17,7 +17,7 @@ COPY *.tar.gz ${APP_ROOT}/OpenShift_CLI/oc-linux.tar.gz
 RUN yum install -y vim wget curl git dos2unix java-1.8.0-openjdk-devel && \
     yum clean all
 ### Maven
-RUN wget ${MAVEN_HOST}/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -P /tmp && \
+RUN wget --no-check-certificate ${MAVEN_HOST}/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -P /tmp && \
 	tar -xvf /tmp/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt && \
 	rm -f /tmp/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
 	ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven && \
