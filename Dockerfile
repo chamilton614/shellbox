@@ -5,6 +5,7 @@ USER root
 
 ENV APP_ROOT=/opt/app-root
 ENV HOME=${APP_ROOT}
+ENV MAVEN_HOST=https://dlcdn.apache.org
 ENV MAVEN_VERSION=3.6.3
 
 #COPY docker-entrypoint.sh ${APP_ROOT}/entrypoint.sh
@@ -16,7 +17,7 @@ COPY *.tar.gz ${APP_ROOT}/OpenShift_CLI/oc-linux.tar.gz
 RUN yum install -y vim wget curl git dos2unix java-1.8.0-openjdk-devel && \
     yum clean all
 ### Maven
-RUN wget http://apache.claz.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -P /tmp && \
+RUN wget ${MAVEN_HOST}/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -P /tmp && \
 	tar -xvf /tmp/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt && \
 	rm -f /tmp/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
 	ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven && \
